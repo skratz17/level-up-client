@@ -1,15 +1,18 @@
 import React, { useContext, useEffect, useState } from 'react';
+import { useHistory } from 'react-router-dom';
 
 import { GameContext } from './GameProvider';
 
 export const GameForm = () => {
   const [ formValues, setFormValues ] = useState({});
 
-  const { gameTypes, getGameTypes } = useContext(GameContext);
+  const { gameTypes, getGameTypes, createGame } = useContext(GameContext);
 
   useEffect(() => {
     getGameTypes();
   }, []);
+
+  const history = useHistory();
 
   const handleChange = e => {
     const { name, value } = e.target;
@@ -22,7 +25,8 @@ export const GameForm = () => {
   const handleSubmit = e => {
     e.preventDefault();
 
-    console.log(formValues);
+    createGame(formValues)
+      .then(() => history.push('/'));
   };
 
   return (
