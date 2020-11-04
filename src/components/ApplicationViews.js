@@ -13,9 +13,8 @@ export const ApplicationViews = () => {
             backgroundColor: "lightgoldenrodyellow"
         }}>
           <GameProvider>
-            <Route exact path="/">
-              <GameList />
-            </Route>
+            <Route exact path="/" component={GameList} />
+            <Route exact path="/games" component={GameList} />
 
             <Route path="/games/new">
               <GameForm />
