@@ -13,6 +13,7 @@ export const GameList = props => {
 
   return (
     <article className="games">
+      <h1>Games</h1>
       <Link to="/games/new">Create Game</Link>
       {
         games.map(game => (
