@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { EventContext } from "./EventProvider.js"
 
 export const EventList = (props) => {
-    const { events, getEvents } = useContext(EventContext)
+    const { events, getEvents, joinEvent, leaveEvent } = useContext(EventContext)
 
     useEffect(() => {
         getEvents()
@@ -32,6 +32,11 @@ export const EventList = (props) => {
                               }
                                 @ {event.time}
                         </div>
+                        {
+                          event.joined ?
+                            <button onClick={() => leaveEvent(event.id)}>Leave Event</button> :
+                            <button onClick={() => joinEvent(event.id)}>Join Event</button>
+                        }
                     </section>
                 })
             }
