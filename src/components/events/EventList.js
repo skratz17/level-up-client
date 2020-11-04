@@ -1,4 +1,5 @@
 import React, { useContext, useEffect } from "react"
+import { Link } from 'react-router-dom';
 import { EventContext } from "./EventProvider.js"
 
 export const EventList = (props) => {
@@ -13,6 +14,7 @@ export const EventList = (props) => {
             <header className="events__header">
                 <h1>Level Up Game Events</h1>
             </header>
+            <Link to="/events/new">Create an Event</Link>
             {
                 events.map(event => {
                     return <section key={event.id} className="registration">
