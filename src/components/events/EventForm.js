@@ -1,10 +1,16 @@
 import React, { useState, useEffect, useContext } from 'react';
+import { useHistory } from 'react-router-dom';
+
 import { GameContext } from '../game/GameProvider';
+import { EventContext } from './EventProvider';
 
 export const EventForm = () => {
   const [ formValues, setFormValues ] = useState({});
 
   const { games, getGames } = useContext(GameContext);
+  const { createEvent } = useContext(EventContext);
+
+  const history = useHistory();
 
   useEffect(() => {
     getGames();
@@ -20,7 +26,9 @@ export const EventForm = () => {
 
   const handleSubmit = e => {
     e.preventDefault();
-    console.log(formValues);
+
+    createEvent(formValues)
+      .then(() => history.push('/events'));
   };
 
   return (
