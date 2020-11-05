@@ -9,8 +9,6 @@ export const GameList = props => {
     getGames();
   }, []);
 
-  console.log(games);
-
   return (
     <article className="games">
       <h1>Games</h1>
