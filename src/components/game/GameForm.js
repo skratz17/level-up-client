@@ -1,18 +1,33 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useLocation, useParams } from 'react-router-dom';
 
 import { GameContext } from './GameProvider';
 
 export const GameForm = () => {
   const [ formValues, setFormValues ] = useState({});
 
-  const { gameTypes, getGameTypes, createGame } = useContext(GameContext);
-
-  useEffect(() => {
-    getGameTypes();
-  }, []);
+  const { gameTypes, getGameById, getGameTypes, createGame, updateGame } = useContext(GameContext);
 
   const history = useHistory();
+  const location = useLocation();
+  const { gameId } = useParams();
+
+  const isEditMode = location.pathname.includes('edit');
+
+  useEffect(() => {
+    getGameTypes()
+    if(isEditMode) {
+      getGameById(gameId)
+        .then(game => {
+          setFormValues({
+            name: game.name,
+            numPlayers: game.num_players,
+            skillLevel: game.skill_level,
+            gameTypeId: game.game_type.id
+          })
+        })
+    }
+  }, []);
 
   const handleChange = e => {
     const { name, value } = e.target;
@@ -25,8 +40,15 @@ export const GameForm = () => {
   const handleSubmit = e => {
     e.preventDefault();
 
-    createGame(formValues)
-      .then(() => history.push('/'));
+    if(isEditMode) {
+      updateGame(gameId, { ...formValues, id: gameId })
+        .then(() => history.push('/'))
+    }
+
+    else {
+      createGame(formValues)
+        .then(() => history.push('/'));
+    }
   };
 
   return (
